@@ -1,17 +1,13 @@
-var assignResource = require('assignResource'),
+var assignResouceThenHarvest = require('assignResouceThenHarvest'),
     roleHarvester, 
 
     /** @param {Creep} creep **/
     run = function(creep) {
 	    if(creep.carry.energy < creep.carryCapacity) {
             var sources = creep.room.find(FIND_SOURCES);
-            
-            // assign resouce then harvest
-            assignResource(creep);
-            if(creep.harvest(creep.memory.assignedResource) == ERR_NOT_IN_RANGE) {
                 creep.say('🔄 harvest');
-                creep.moveTo(creep.memory.assignedResource, {visualizePathStyle: {stroke: '#ffaa00'}});
-            }
+            // assign resouce then harvest
+            assignResouceThenHarvest(creep);
         } else {
             var targets = creep.room.find(FIND_STRUCTURES, {
                     filter: (structure) => {

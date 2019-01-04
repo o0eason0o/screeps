@@ -34,35 +34,39 @@ module.exports.loop = function () {
     harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
     builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
     upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
+    
     console.log('Harvesters: ' + harvesters.length + ', builders: ' + builders.length + ', upgraders: ' + upgraders.length);
     
-    // to increase creeps to total of 3 each
+    // console.log(Object.keys(basicCreepsTree));
+
+    // total 3 types of basic creeps
     basicCreepsAvg = Object.keys(Game.creeps).length/3 ;
 
-    if(basicCreepsAvg > 2) {
-        basicCreepsAvg = 2;
+    // to increase creeps to total of 4 each
+    if(basicCreepsAvg > 3) {
+        basicCreepsAvg = 3;
     }
 
     // respawn new workers
     if(harvesters.length <= basicCreepsAvg) {
         var newName = 'Harvester' + Game.time;
-        console.log('Spawning new harvester: ' + newName);
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName, 
             {memory: {role: 'harvester'}});
     } else if(upgraders.length <= basicCreepsAvg) {
         var newName = 'Upgrader' + Game.time;
-        console.log('Spawning new upgrader: ' + newName);
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName, 
             {memory: {role: 'upgrader'}});
     } else if(builders.length <= basicCreepsAvg) {
         var newName = 'Builder' + Game.time;
-        console.log('Spawning new builder: ' + newName);
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName, 
             {memory: {role: 'builder'}});
     }
     
     if(Game.spawns['Spawn1'].spawning) { 
         var spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];
+        console.log(Game.spawns['Spawn1'].spawning);
+        console.log('Spawning new creep' + ': ' + Game.spawns['Spawn1'].spawning.name);
+
         Game.spawns['Spawn1'].room.visual.text(
             '🛠️' + spawningCreep.memory.role,
             Game.spawns['Spawn1'].pos.x + 1, 

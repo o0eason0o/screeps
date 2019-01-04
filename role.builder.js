@@ -1,4 +1,4 @@
-var assignResource = require('assignResource'),
+var assignResouceThenHarvest = require('assignResouceThenHarvest'),
     roleBuilder, 
     builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder'),
 
@@ -32,18 +32,15 @@ var assignResource = require('assignResource'),
             		}
             	}).length;
 
-            	newExtPosX = spawnPos.x - 3 + structureExtCount * 2;
+            	newExtPosX = spawnPos.x - 3 + (structureExtCount * 2);
 
-            	Game.rooms.sim.createConstructionSite(newExtPosX, spawnPos.y + 2, STRUCTURE_EXTENSION);
+            	Game.rooms.sim.createConstructionSite(newExtPosX, (spawnPos.y + 2), STRUCTURE_EXTENSION);
             }
 	    }
 	    else {
 
             // assign resouce then harvest
-            assignResource(creep);
-            if(creep.harvest(creep.memory.assignedResource) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.memory.assignedResource, {visualizePathStyle: {stroke: '#ffaa00'}});
-            }
+            assignResouceThenHarvest(creep);
 	    }
 	};
 

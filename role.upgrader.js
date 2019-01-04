@@ -1,4 +1,4 @@
-var assignResource = require('assignResource'),
+var assignResouceThenHarvest = require('assignResouceThenHarvest'),
     roleUpgrader, 
     /** @param {Creep} creep **/
     run = function(creep) {
@@ -18,12 +18,8 @@ var assignResource = require('assignResource'),
             }
         }
         else {
-            var sources = creep.room.find(FIND_SOURCES);
-            
-            assignResource(creep);
-            if(creep.harvest(creep.memory.assignedResource) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.memory.assignedResource, {visualizePathStyle: {stroke: '#ffaa00'}});
-            }
+            // assign resouce then harvest
+            assignResouceThenHarvest(creep);
         }
 	};
 
