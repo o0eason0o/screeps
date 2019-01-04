@@ -1,4 +1,6 @@
-var roleBuilder, 
+var assignResource = require('assignResource'),
+    roleBuilder, 
+    builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder'),
 
     /** @param {Creep} creep **/
     run = function(creep) {
@@ -13,6 +15,7 @@ var roleBuilder,
 	    }
 
 	    if(creep.memory.building) {
+
 	        var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
             if(targets.length) {
                 if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
@@ -35,9 +38,11 @@ var roleBuilder,
             }
 	    }
 	    else {
-	        var sources = creep.room.find(FIND_SOURCES);
-            if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
+
+            // assign resouce then harvest
+            assignResource(creep);
+            if(creep.harvest(creep.memory.assignedResource) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(creep.memory.assignedResource, {visualizePathStyle: {stroke: '#ffaa00'}});
             }
 	    }
 	};

@@ -6,7 +6,8 @@ module.exports.loop = function () {
 
     var harvesters, 
         builders, 
-        upgraders;
+        upgraders, 
+        basicCreepsAvg;
 
     for(var name in Memory.creeps) {
         if(!Game.creeps[name]) {
@@ -34,19 +35,26 @@ module.exports.loop = function () {
     builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
     upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
     console.log('Harvesters: ' + harvesters.length + ', builders: ' + builders.length + ', upgraders: ' + upgraders.length);
+    
+    // to increase creeps to total of 3 each
+    basicCreepsAvg = Object.keys(Game.creeps).length/3 ;
+
+    if(basicCreepsAvg > 2) {
+        basicCreepsAvg = 2;
+    }
 
     // respawn new workers
-    if(harvesters.length < 1) {
+    if(harvesters.length <= basicCreepsAvg) {
         var newName = 'Harvester' + Game.time;
         console.log('Spawning new harvester: ' + newName);
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName, 
             {memory: {role: 'harvester'}});
-    } else if(upgraders.length < 1) {
+    } else if(upgraders.length <= basicCreepsAvg) {
         var newName = 'Upgrader' + Game.time;
         console.log('Spawning new upgrader: ' + newName);
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName, 
             {memory: {role: 'upgrader'}});
-    } else if(builders.length < 1) {
+    } else if(builders.length <= basicCreepsAvg) {
         var newName = 'Builder' + Game.time;
         console.log('Spawning new builder: ' + newName);
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName, 
