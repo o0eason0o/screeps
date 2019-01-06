@@ -1,9 +1,13 @@
 var assignResouceThenHarvest = function (creep) {
+		var assignedResource = creep.memory.assignedResource;
 
-		if(creep.memory.assignedResource !== null){
+		if(assignedResource === undefined || assignedResource.energy === 0){
 			var sources = creep.room.find(FIND_SOURCES), 
-	    	role = creep.memory.role,
-	    	sameRoleCreeps = _.filter(Game.creeps, (creep) => creep.memory.role == role);
+	    		role = creep.memory.role,
+	    		sameRoleCreeps = _.filter(Game.creeps, (unit) => unit.memory.role == role);
+
+    		// TODO: currently avoiding source with enemy, need to deal with the enemy later
+    		sources.splice(sources.indexOf('0f8396d2b0ace3b483ca095e'), 1);
 	
 		    for(var i = 0; i < sameRoleCreeps.length; i++) {
 		        if(creep.name === sameRoleCreeps[i].name) {
@@ -12,11 +16,9 @@ var assignResouceThenHarvest = function (creep) {
 		    }
 		}
 
-	    if(creep.harvest(creep.memory.assignedResource) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.memory.assignedResource, {visualizePathStyle: {stroke: '#ffaa00'}});
+	    if(assignedResource && creep.harvest(Game.getObjectById(assignedResource.id)) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(Game.getObjectById(assignedResource.id), {visualizePathStyle: {stroke: '#ffaa00'}});
         }
 	};
-
-	
 
 module.exports = assignResouceThenHarvest;

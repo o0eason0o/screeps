@@ -1,12 +1,14 @@
 var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
+var roleBasicFighter = require('role.basicFighter');
 
 module.exports.loop = function () {
 
     var harvesters, 
         builders, 
         upgraders, 
+        basicFighter,
         basicCreepsAvg;
 
     for(var name in Memory.creeps) {
@@ -34,6 +36,7 @@ module.exports.loop = function () {
     harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
     builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
     upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
+    basicFighter = _.filter(Game.creeps, (creep) => creep.memory.role == 'basicFighter');
     
     console.log('Harvesters: ' + harvesters.length + ', builders: ' + builders.length + ', upgraders: ' + upgraders.length);
     
@@ -47,24 +50,35 @@ module.exports.loop = function () {
         basicCreepsAvg = 3;
     }
 
+    var spawnBaiscCreep = function (type) {
+        var newName = type.charAt(0).toUpperCase() + type.slice(1) + Game.time;
+        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName, 
+            {memory: {role: type}});
+    };
+
     // respawn new workers
-    if(harvesters.length <= basicCreepsAvg) {
-        var newName = 'Harvester' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName, 
-            {memory: {role: 'harvester'}});
-    } else if(upgraders.length <= basicCreepsAvg) {
-        var newName = 'Upgrader' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName, 
-            {memory: {role: 'upgrader'}});
-    } else if(builders.length <= basicCreepsAvg) {
-        var newName = 'Builder' + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName, 
-            {memory: {role: 'builder'}});
-    }
-    
+    // if(basicFighter.length == 0 && harvesters.length !== 0) {
+    //     var newName = 'basicFighter' + Game.time;
+    //     Game.spawns['Spawn1'].spawnCreep([ATTACK,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE], newName, 
+    //         {memory: {role: 'basicFighter'}});
+    // } else {
+        if(harvesters.length <= basicCreepsAvg) {
+            spawnBaiscCreep('harvester');
+        } else if(upgraders.length <= basicCreepsAvg) {
+            spawnBaiscCreep('upgrader');
+        } else if(builders.length <= basicCreepsAvg) {
+            spawnBaiscCreep('builder');
+        } 
+
+        // if(basicFighter.length <= 1) {
+        //     var newName = 'basicFighter' + Game.time;
+        //     Game.spawns['Spawn1'].spawnCreep([ATTACK,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE], newName, 
+        //         {memory: {role: 'basicFighter'}});
+        // }
+    // }
+
     if(Game.spawns['Spawn1'].spawning) { 
         var spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];
-        console.log(Game.spawns['Spawn1'].spawning);
         console.log('Spawning new creep' + ': ' + Game.spawns['Spawn1'].spawning.name);
 
         Game.spawns['Spawn1'].room.visual.text(
@@ -84,6 +98,9 @@ module.exports.loop = function () {
         }
         if(creep.memory.role == 'builder') {
             roleBuilder.run(creep);
+        }
+        if(creep.memory.role == 'basicFighter') {
+            roleBasicFighter.run(creep);
         }
     }
 }
