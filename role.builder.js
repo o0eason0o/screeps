@@ -58,10 +58,9 @@ var assignResouceThenHarvest = require('assignResouceThenHarvest'),
             goals = _.map(creep.room.find(FIND_SOURCES), function(source) {return {pos: source.pos, range:1};});
         
         PathFinder.search(spawnPos, goals).path.forEach(function (site) {
-                Game.rooms.sim.createConstructionSite(site.x, site.y, STRUCTURE_ROAD);
-            });
+            Game.rooms.sim.createConstructionSite(site.x, site.y, STRUCTURE_ROAD);
+        });
 
-            // console.log(JSON.stringify(path));
 
     };
 

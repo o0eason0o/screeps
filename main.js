@@ -45,9 +45,9 @@ module.exports.loop = function () {
     // total 3 types of basic creeps
     basicCreepsAvg = Object.keys(Game.creeps).length/3 ;
 
-    // to increase creeps to total of 4 each
-    if(basicCreepsAvg > 3) {
-        basicCreepsAvg = 3;
+    // to increase creeps to total of 3 each
+    if(basicCreepsAvg > 2) {
+        basicCreepsAvg = 2;
     }
 
     var spawnBaiscCreep = function (type) {

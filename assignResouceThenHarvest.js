@@ -7,13 +7,20 @@ var assignResouceThenHarvest = function (creep) {
 	    		sameRoleCreeps = _.filter(Game.creeps, (unit) => unit.memory.role == role);
 
     		// TODO: currently avoiding source with enemy, need to deal with the enemy later
-    		sources.splice(sources.indexOf('0f8396d2b0ace3b483ca095e'), 1);
-	
+    		var safeList = _.filter(sources, (source) => source.id !== '0f8396d2b0ace3b483ca095e')
 		    for(var i = 0; i < sameRoleCreeps.length; i++) {
 		        if(creep.name === sameRoleCreeps[i].name) {
-		            creep.memory.assignedResource = Game.getObjectById(sources[i].id);
+		            creep.memory.assignedResource = Game.getObjectById(safeList[i].id);
 		        }
 		    }
+
+		    // // original code; remove above TODO and use this to assign resouces
+		    // for(var i = 0; i < sameRoleCreeps.length; i++) {
+		    //     if(creep.name === sameRoleCreeps[i].name) {
+		    //         creep.memory.assignedResource = Game.getObjectById(sources[i].id);
+		    //     }
+		    // }
+
 		}
 
 	    if(assignedResource && creep.harvest(Game.getObjectById(assignedResource.id)) == ERR_NOT_IN_RANGE) {
