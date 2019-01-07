@@ -32,7 +32,6 @@ var assignResouceThenHarvest = require('assignResouceThenHarvest'),
                 buildExtension(creep);
             }
 	    } else {
-            // assign resouce then harvest
             assignResouceThenHarvest(creep);
 	    }
 	}, 
@@ -53,11 +52,15 @@ var assignResouceThenHarvest = require('assignResouceThenHarvest'),
         Game.rooms.sim.createConstructionSite(newExtPosX, (spawnPos.y + 2), STRUCTURE_EXTENSION);
     },
     buildRoads = function (creep) {
-        console.log('building roads');
+        // TODO: fix building roads, start from assigned resource to home
+        // console.log('building roads');
+        
         var spawnPos = Game.spawns['Spawn1'].pos,
             goals = _.map(creep.room.find(FIND_SOURCES), function(source) {return {pos: source.pos, range:1};});
+            // console.log(JSON.stringify(goals));
         
-        PathFinder.search(spawnPos, goals).path.forEach(function (site) {
+        var thePath = PathFinder.search(spawnPos, goals).path;
+        thePath.forEach(function (site) {
             Game.rooms.sim.createConstructionSite(site.x, site.y, STRUCTURE_ROAD);
         });
 

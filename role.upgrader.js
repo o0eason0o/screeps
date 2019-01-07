@@ -16,8 +16,7 @@ var assignResouceThenHarvest = require('assignResouceThenHarvest'),
             if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}});
             }
-        }
-        else {
+        } else {
             // assign resouce then harvest
             assignResouceThenHarvest(creep);
         }
