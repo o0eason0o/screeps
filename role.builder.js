@@ -1,20 +1,20 @@
 var assignResouceThenHarvest = require('assignResouceThenHarvest'),
-    roleBuilder, 
+    roleBuilder,
     builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder'),
 
     /** @param {Creep} creep **/
     run = function(creep) {
 
-	    if(creep.memory.building && creep.carry.energy == 0) {
+        if (creep.memory.building && creep.carry.energy == 0) {
             creep.memory.building = false;
             creep.say('🔄 harvest');
-	    }
-	    if(!creep.memory.building && creep.carry.energy == creep.carryCapacity) {
-	        creep.memory.building = true;
-	        creep.say('🚧 build');
-	    }
+        }
+        if (!creep.memory.building && creep.carry.energy == creep.carryCapacity) {
+            creep.memory.building = true;
+            creep.say('🚧 build');
+        }
 
-	    if(creep.memory.building) {
+        if (creep.memory.building) {
             buildRoads(creep);
 
             // if(creep.memory.assignedSite !== undefined){
@@ -23,23 +23,23 @@ var assignResouceThenHarvest = require('assignResouceThenHarvest'),
             //     }
             // }
 
-	        var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-            if(targets.length) {
-                if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+            var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+            if (targets.length) {
+                if (creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
                 }
             } else {
                 buildExtension(creep);
             }
-	    } else {
+        } else {
             assignResouceThenHarvest(creep);
-	    }
-	}, 
-    buildExtension = function (creep) {
+        }
+    },
+    buildExtension = function(creep) {
         // build new structure_extension
-        var spawnPos = Game.spawns['Spawn1'].pos, 
-        structureExtCount, 
-        newExtPosX;
+        var spawnPos = Game.spawns['Spawn1'].pos,
+            structureExtCount,
+            newExtPosX;
 
         structureExtCount = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
@@ -51,16 +51,16 @@ var assignResouceThenHarvest = require('assignResouceThenHarvest'),
 
         Game.rooms.sim.createConstructionSite(newExtPosX, (spawnPos.y + 2), STRUCTURE_EXTENSION);
     },
-    buildRoads = function (creep) {
+    buildRoads = function(creep) {
         // TODO: fix building roads, start from assigned resource to home
         // console.log('building roads');
-        
+
         var spawnPos = Game.spawns['Spawn1'].pos,
-            goals = _.map(creep.room.find(FIND_SOURCES), function(source) {return {pos: source.pos, range:1};});
-            // console.log(JSON.stringify(goals));
-        
+            goals = _.map(creep.room.find(FIND_SOURCES), function(source) { return { pos: source.pos, range: 1 }; });
+        // console.log(JSON.stringify(goals));
+
         var thePath = PathFinder.search(spawnPos, goals).path;
-        thePath.forEach(function (site) {
+        thePath.forEach(function(site) {
             Game.rooms.sim.createConstructionSite(site.x, site.y, STRUCTURE_ROAD);
         });
 
@@ -68,7 +68,7 @@ var assignResouceThenHarvest = require('assignResouceThenHarvest'),
     };
 
 roleBuilder = {
-	run: run
+    run: run
 };
 
 module.exports = roleBuilder;
