@@ -81,7 +81,7 @@ module.exports.loop = function() {
         console.log('Spawning new creep' + ': ' + Game.spawns['Spawn1'].spawning.name);
 
         Game.spawns['Spawn1'].room.visual.text(
-            'Ì†ΩÌª†Ô∏è' + spawningCreep.memory.role,
+            'üõ†Ô∏è ' + spawningCreep.memory.role,
             Game.spawns['Spawn1'].pos.x + 1,
             Game.spawns['Spawn1'].pos.y, { align: 'left', opacity: 0.8 });
     }
