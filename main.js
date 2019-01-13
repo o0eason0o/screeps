@@ -92,10 +92,10 @@ module.exports.loop = function() {
             roleHarvester.run.call(creep);
         }
         if (creep.memory.role == 'upgrader') {
-            roleUpgrader.run(creep);
+            roleUpgrader.run.call(creep);
         }
         if (creep.memory.role == 'builder') {
-            roleBuilder.run(creep);
+            roleBuilder.run.call(creep);
         }
         // if (creep.memory.role == 'basicFighter') {
         //     roleBasicFighter.run(creep);

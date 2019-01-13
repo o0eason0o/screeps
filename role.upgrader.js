@@ -1,25 +1,26 @@
-var assignResouceThenHarvest = require('assignResouceThenHarvest'),
+var assignResourceThenHarvest = require('assignResourceThenHarvest'),
     say = require('util.say'),
     roleUpgrader,
     /** @param {Creep} creep **/
-    run = function(creep) {
+    run = function() {
+        var me = this;
 
-        if (creep.memory.upgrading && creep.carry.energy == 0) {
-            creep.memory.upgrading = false;
-            say.harvest.call(creep);
+        if (me.memory.upgrading && me.carry.energy == 0) {
+            me.memory.upgrading = false;
+            say.harvest.call(me);
         }
-        if (!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
-            creep.memory.upgrading = true;
-            say.upgrade.call(creep);
+        if (!me.memory.upgrading && me.carry.energy == me.carryCapacity) {
+            me.memory.upgrading = true;
+            say.upgrade.call(me);
         }
 
-        if (creep.memory.upgrading) {
-            if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.room.controller, { visualizePathStyle: { stroke: '#ffffff' } });
+        if (me.memory.upgrading) {
+            if (me.upgradeController(me.room.controller) == ERR_NOT_IN_RANGE) {
+                me.moveTo(me.room.controller, { visualizePathStyle: { stroke: '#ffffff' } });
             }
         } else {
             // assign resouce then harvest
-            assignResouceThenHarvest(creep);
+            assignResourceThenHarvest.call(me);
         }
     };
 
