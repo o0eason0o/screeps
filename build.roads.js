@@ -17,7 +17,7 @@ function buildRoads() {
                 y = roadEnds[j].pos;
             var thePath = PathFinder.search(x, y).path;
             thePath.forEach(function(site) {
-                Game.rooms.sim.createConstructionSite({pos: site.x, range: 1}, site.y, STRUCTURE_ROAD);
+                Game.rooms.sim.createConstructionSite({pos: site.x, range: 1}, {pos: site.y, range: 1}, STRUCTURE_ROAD);
             });
         }
     }

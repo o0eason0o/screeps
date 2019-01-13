@@ -33,7 +33,7 @@ module.exports.loop = function() {
     }
 
     // buildRoads
-    if (Game.time & 100 === 0) {
+    if (Game.time % 10 === 0) {
         buildRoads();
     }
 
@@ -91,7 +91,7 @@ module.exports.loop = function() {
             Game.spawns['Spawn1'].pos.y, { align: 'left', opacity: 0.8 });
     } else {
         // respawn new workers
-        if (harvesters.length <= basicCreepsAvg + 1) {
+        if (harvesters.length <= basicCreepsAvg) {
             spawnBaiscCreep('harvester');
         } else if (upgraders.length <= basicCreepsAvg) {
             spawnBaiscCreep('upgrader');

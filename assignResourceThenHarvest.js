@@ -31,7 +31,7 @@ var assignResourceThenHarvest = function() {
         for (var i = 0; i < sources.length; i++) {
             if (sameRoleCreeps[i] && me.id === sameRoleCreeps[i].id) {
                 me.memory.assignedResourceId = sources[i].id;
-            }
+            } 
         }
     };
 
