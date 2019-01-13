@@ -18,6 +18,10 @@ module.exports.loop = function() {
         }
     }
 
+    if (Game.time % 30 === 0) {
+        console.log("<script>angular.element(document.getElementsByClassName('fa fa-trash ng-scope')[0].parentNode).scope().Console.clear()</script>")
+    }
+
     // var tower = Game.getObjectById('c42e7ec4e4a30b8da8b48a64');
     // if(tower) {
     //     var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
@@ -38,7 +42,7 @@ module.exports.loop = function() {
     upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
     basicFighter = _.filter(Game.creeps, (creep) => creep.memory.role == 'basicFighter');
 
-    console.log('Harvesters: ' + harvesters.length + ', builders: ' + builders.length + ', upgraders: ' + upgraders.length);
+    // console.log('Harvesters: ' + harvesters.length + ', builders: ' + builders.length + ', upgraders: ' + upgraders.length);
 
     // console.log(Object.keys(basicCreepsTree));
 
@@ -50,9 +54,18 @@ module.exports.loop = function() {
         basicCreepsAvg = 2;
     }
 
-    var spawnBaiscCreep = function(type) {
-        var newName = type.charAt(0).toUpperCase() + type.slice(1) + Game.time;
-        Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE], newName, { memory: { role: type } });
+    function spawnBaiscCreep(type) {
+        var newName = type.charAt(0).toUpperCase() + type.slice(1) + Game.time,
+            parts = [],
+            i = 0;
+
+        do {
+            parts.push(WORK, CARRY, MOVE);
+            i++;
+        } while (i < basicCreepsAvg);
+
+        Game.spawns['Spawn1'].spawnCreep(parts, newName, {memory: { role: type } });
+        // Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE], newName, { memory: { role: type } });
     };
 
     // respawn new workers
@@ -97,8 +110,8 @@ module.exports.loop = function() {
         if (creep.memory.role == 'builder') {
             roleBuilder.run(creep);
         }
-        if (creep.memory.role == 'basicFighter') {
-            roleBasicFighter.run(creep);
-        }
+        // if (creep.memory.role == 'basicFighter') {
+        //     roleBasicFighter.run(creep);
+        // }
     }
 }
