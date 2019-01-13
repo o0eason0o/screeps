@@ -23,7 +23,7 @@ var assignResourceThenHarvest = function() {
 
         // TODO: need to deal with the source keeper
         for (var i = 0; i < sources.length; i++) {
-            if (sources[i].id === 'd2b38d7da7d17ec9b2b48a45') {
+            if (sources[i].id === '47ebfb3cec242850c19e2817') {
                 sources.splice(i, 1);
             }
         }

@@ -63,22 +63,27 @@ var assignResourceThenHarvest = require('assignResourceThenHarvest'),
         // build new structure_extension
         var me = this;
         var spawnPos = Game.spawns['Spawn1'].pos,
-            structureExtCount,
-            newExtPosX,
-            newExtPosY;
+            structureExtCount;
 
-        structureExtCount = me.room.find(FIND_STRUCTURES, {
-            filter: (structure) => {
-                return (structure.structureType == STRUCTURE_EXTENSION)
-            }
-        }).length;
-        newExtPosX = spawnPos.x - 4 + ((structureExtCount % 4) * 2);
-        newExtPosY = spawnPos.y + 2 + Math.floor(structureExtCount / 4);
+        for (var i = 0; i < Memory.controllerLevel * 3; i++) {
+            var order = (i % 4);
+            var newExtPosX = spawnPos.x - 2 + (order < 2 ? order : order + 1),
+                newExtPosY = spawnPos.y + 2 + Math.floor(i / 4);
 
-        if (Game.rooms.sim.createConstructionSite(newExtPosX, newExtPosY, STRUCTURE_EXTENSION) ===ERR_RCL_NOT_ENOUGH) {
-            // controller level not enough
-        };
-      
+            if (Game.rooms.sim.createConstructionSite(newExtPosX, newExtPosY, STRUCTURE_EXTENSION) === ERR_RCL_NOT_ENOUGH) {
+                // controller level not enough
+                // console.log('controller level not enough');
+            };
+        }
+
+        // structureExtCount = me.room.find(FIND_STRUCTURES, {
+        //     filter: (structure) => {
+        //         return (structure.structureType == STRUCTURE_EXTENSION)
+        //     }
+        // }).length;
+        // newExtPosX = spawnPos.x - 4 + ((structureExtCount % 4) * 2);
+        // // newExtPosX = spawnPos.x - 3 + (structureExtCount % 4) + (structureExtCount % 2);
+        // newExtPosY = spawnPos.y + 2 + Math.floor(structureExtCount / 4);
         // console.log(Game.rooms.sim.createConstructionSite(newExtPosX, (spawnPos.y + 2), STRUCTURE_EXTENSION));
     };
 

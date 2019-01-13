@@ -33,7 +33,7 @@ module.exports.loop = function() {
     }
 
     // buildRoads
-    if (Game.time % 10 === 0) {
+    if (Game.time % 100 === 0) {
         buildRoads();
     }
 
@@ -70,9 +70,10 @@ module.exports.loop = function() {
             // TODO: need a better way to get controller level in the room
         } while (i < Memory.controllerLevel);
         console.log('Spawning new creep' + ': ' + newName);
-        console.log('creep parts: ', parts);
+        // console.log('creep parts: ', parts);
 
         if (Game.spawns['Spawn1'].spawnCreep(parts, newName, { memory: { role: type } }) === ERR_NOT_ENOUGH_RESOURCES) {
+            // console.log('not enough resources, spawning normal creep');
             Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE], newName, { memory: { role: type } });
         }
     };
@@ -90,6 +91,7 @@ module.exports.loop = function() {
             Game.spawns['Spawn1'].pos.x + 1,
             Game.spawns['Spawn1'].pos.y, { align: 'left', opacity: 0.8 });
     } else {
+
         // respawn new workers
         if (harvesters.length <= basicCreepsAvg) {
             spawnBaiscCreep('harvester');

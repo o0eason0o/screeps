@@ -2,6 +2,10 @@ function harvest() {
     this.say('🔄 harvest');
 }
 
+function distribute() {
+    this.say('🚚 distribute');
+}
+
 function build() {
     this.say('🚧 build');
 }
@@ -22,7 +26,8 @@ var say = {
     harvest: harvest,
     build: build,
     helpingBuilders: helpingBuilders,
-    upgrade: upgrade
+    upgrade: upgrade, 
+    distribute: distribute
 };
 
 module.exports = say;
