@@ -34,7 +34,7 @@ var assignResourceThenHarvest = require('assignResourceThenHarvest'),
                 }),
                 closestSite = _.sortBy(constructionSites, s => me.pos.getRangeTo(s))[0];
             // console.log(closestSite);
-            if (extCount < basicCreepsAvg * 2) {
+            if (extCount < Memory.controllerLevel * 3) {
                 buildExtension.call(me);
             }
 
@@ -94,8 +94,6 @@ var assignResourceThenHarvest = require('assignResourceThenHarvest'),
         thePath.forEach(function(site) {
             Game.rooms.sim.createConstructionSite(site.x, site.y, STRUCTURE_ROAD);
         });
-
-
     };
 
 roleBuilder = {

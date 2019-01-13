@@ -21,7 +21,6 @@ var assignResourceThenHarvest = function() {
             role = me.memory.role,
             sameRoleCreeps = _.filter(Game.creeps, (unit) => unit.memory.role === role);
 
-
         // TODO: need to deal with the source keeper
         for (var i = 0; i < sources.length; i++) {
             if (sources[i].id === 'd2b38d7da7d17ec9b2b48a45') {
@@ -34,13 +33,6 @@ var assignResourceThenHarvest = function() {
                 me.memory.assignedResourceId = sources[i].id;
             }
         }
-
-        // // original code; remove above TODO and use this to assign resouces
-        // for(var i = 0; i < sameRoleCreeps.length; i++) {
-        //     if(creep.name === sameRoleCreeps[i].name) {
-        //         creep.memory.assignedResourceId = sources[i].id;
-        //     }
-        // }
     };
 
 module.exports = assignResourceThenHarvest;
