@@ -11,6 +11,12 @@ module.exports.loop = function() {
         basicFighter,
         basicCreepsAvg;
 
+        var controllers = _.filter(Game.structures, (structure)=>{ 
+            // console.log(structure.structureType);
+            return structure.structureType === 'controller';
+        }),
+        controllerLevel = controllers[0].level
+
     // cleanup console & memory
     if (Game.time % 30 === 0) {
         for (var name in Memory.creeps) {
@@ -46,8 +52,8 @@ module.exports.loop = function() {
             parts.push(WORK, CARRY, MOVE);
             i++;
         // } while (i < Game.rooms.sim.controller.level);
-        } while (i < basicCreepsAvg);
-        // console.log('creep parts: ', parts);
+        } while (i < controllerLevel);
+        console.log('creep parts: ', parts);
 
         if (Game.spawns['Spawn1'].spawnCreep(parts, newName, {memory: { role: type } }) === ERR_NOT_ENOUGH_RESOURCES) {
             Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE], newName, { memory: { role: type } });
@@ -87,15 +93,15 @@ module.exports.loop = function() {
 
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
-        if (creep.memory.role == 'harvester') {
+        if (creep.memory.role === 'harvester') {
             // roleHarvester.run(creep);
             roleHarvester.run.call(creep);
         }
-        if (creep.memory.role == 'upgrader') {
-            roleUpgrader.run(creep);
+        if (creep.memory.role === 'upgrader') {
+            roleUpgrader.run.call(creep);
         }
-        if (creep.memory.role == 'builder') {
-            roleBuilder.run(creep);
+        if (creep.memory.role === 'builder') {
+            roleBuilder.run.call(creep);
         }
         // if (creep.memory.role == 'basicFighter') {
         //     roleBasicFighter.run(creep);

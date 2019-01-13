@@ -1,4 +1,4 @@
-var assignResouceThenHarvest = require('assignResouceThenHarvest'),
+var assignResourceThenHarvest = require('assignResourceThenHarvest'),
     say = require('util.say'),
     roleHarvester,
 
@@ -12,7 +12,7 @@ var assignResouceThenHarvest = require('assignResouceThenHarvest'),
             say.harvest.call(me);
 
             // assign resouce then harvest
-            assignResouceThenHarvest.call(me, me);
+            assignResourceThenHarvest.call(me);
         } else {
             var targets = me.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
