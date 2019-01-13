@@ -12,7 +12,7 @@ var assignResourceThenHarvest = require('assignResourceThenHarvest'),
             say.harvest.call(me);
 
             // assign resouce then harvest
-            assignResourceThenHarvest.call(me, me);
+            assignResourceThenHarvest.call(me);
         } else {
             var targets = me.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
