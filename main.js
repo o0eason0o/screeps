@@ -47,7 +47,7 @@ module.exports.loop = function() {
             i++;
         // } while (i < Game.rooms.sim.controller.level);
         } while (i < basicCreepsAvg);
-        console.log(parts);
+        // console.log('creep parts: ', parts);
 
         if (Game.spawns['Spawn1'].spawnCreep(parts, newName, {memory: { role: type } }) === ERR_NOT_ENOUGH_RESOURCES) {
             Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE], newName, { memory: { role: type } });
@@ -88,7 +88,8 @@ module.exports.loop = function() {
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
         if (creep.memory.role == 'harvester') {
-            roleHarvester.run(creep);
+            // roleHarvester.run(creep);
+            roleHarvester.run.call(creep);
         }
         if (creep.memory.role == 'upgrader') {
             roleUpgrader.run(creep);

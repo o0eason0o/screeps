@@ -1,5 +1,6 @@
 var assignResouceThenHarvest = function(creep) {
-        var assignedResource;
+        var me = this, 
+        	assignedResource;
 
         // TODO: when energy is finished || assignedResource.energy === 0
         // console.log(creep.memory.assignedResourceId);

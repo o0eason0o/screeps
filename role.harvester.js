@@ -3,16 +3,18 @@ var assignResouceThenHarvest = require('assignResouceThenHarvest'),
     roleHarvester,
 
     /** @param {Creep} creep **/
-    run = function(creep) {
-        if (creep.carry.energy < creep.carryCapacity) {
-        // if (creep.carry.energy === 0) {
-            var sources = creep.room.find(FIND_SOURCES);
-            say.harvest.call(creep);
+    run = function() {
+        var me = this;
+
+        if (me.carry.energy < me.carryCapacity) {
+        // if (me.carry.energy === 0) {
+            var sources = me.room.find(FIND_SOURCES);
+            say.harvest.call(me);
 
             // assign resouce then harvest
-            assignResouceThenHarvest(creep);
+            assignResouceThenHarvest.call(me, me);
         } else {
-            var targets = creep.room.find(FIND_STRUCTURES, {
+            var targets = me.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return (structure.structureType == STRUCTURE_EXTENSION ||
                         structure.structureType == STRUCTURE_SPAWN ||
@@ -21,18 +23,18 @@ var assignResouceThenHarvest = require('assignResouceThenHarvest'),
             });
             if (targets.length > 0) {
                 // transfer energy to targets
-                if (creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
+                if (me.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    me.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
                 }
             } else {
                 // help building if idle
-                say.helpingBuilders.call(creep);
+                say.helpingBuilders.call(me);
 
-                var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+                var targets = me.room.find(FIND_CONSTRUCTION_SITES);
 
                 if (targets.length) {
-                    if (creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
+                    if (me.build(targets[0]) == ERR_NOT_IN_RANGE) {
+                        me.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
                     }
                 }
             }
