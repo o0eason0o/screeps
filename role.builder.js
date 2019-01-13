@@ -36,7 +36,7 @@ var assignResouceThenHarvest = require('assignResouceThenHarvest'),
                 closestSite = _.sortBy(constructionSites, s => creep.pos.getRangeTo(s))[0];
                 // console.log(closestSite);
 
-                if (extCount < Math.floor(basicCreepsAvg) || extCount === 0) {
+                if (extCount < basicCreepsAvg) {
                     buildExtension(creep);
                 }
 
@@ -66,7 +66,8 @@ var assignResouceThenHarvest = require('assignResouceThenHarvest'),
         // build new structure_extension
         var spawnPos = Game.spawns['Spawn1'].pos,
             structureExtCount,
-            newExtPosX;
+            newExtPosX,
+            newExtPosY;
 
         structureExtCount = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
@@ -74,9 +75,11 @@ var assignResouceThenHarvest = require('assignResouceThenHarvest'),
             }
         }).length;
 
-        newExtPosX = spawnPos.x - 3 + (structureExtCount * 2);
+        newExtPosX = spawnPos.x - 4 + ((structureExtCount * 2)%5);
+        newExtPosY = spawnPos.y + 2 + Math.floor(structureExtCount/5);
 
-        Game.rooms.sim.createConstructionSite(newExtPosX, (spawnPos.y + 2), STRUCTURE_EXTENSION);
+        Game.rooms.sim.createConstructionSite(newExtPosX, newExtPosY, STRUCTURE_EXTENSION);
+        // console.log(Game.rooms.sim.createConstructionSite(newExtPosX, (spawnPos.y + 2), STRUCTURE_EXTENSION));
     },
     buildRoads = function(creep) {
         // TODO: fix building roads, start from assigned resource to home

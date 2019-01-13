@@ -5,6 +5,7 @@ var assignResouceThenHarvest = require('assignResouceThenHarvest'),
     /** @param {Creep} creep **/
     run = function(creep) {
         if (creep.carry.energy < creep.carryCapacity) {
+        // if (creep.carry.energy === 0) {
             var sources = creep.room.find(FIND_SOURCES);
             say.harvest.call(creep);
 

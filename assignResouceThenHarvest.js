@@ -22,7 +22,7 @@ var assignResouceThenHarvest = function(creep) {
 
             // TODO: need to deal with the source keeper
             for(var i = 0; i < sources.length; i++){
-            	if(sources[i].id === 'a861c37fecddba5bb492a056') {
+            	if(sources[i].id === 'd2b38d7da7d17ec9b2b48a45') {
             		sources.splice(i, 1);
             	}
             }
