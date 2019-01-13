@@ -1,7 +1,9 @@
 var roleHarvester = require('role.harvester'),
     roleUpgrader = require('role.upgrader'),
     roleBuilder = require('role.builder'),
-    roleBasicFighter = require('role.basicFighter');
+    roleBasicFighter = require('role.basicFighter'),
+    buildRoads = require('build.roads'),
+    towerAttack = require('tower.attack');
 
 module.exports.loop = function() {
 
@@ -9,10 +11,11 @@ module.exports.loop = function() {
         builders,
         upgraders,
         basicFighter,
-        basicCreepsAvg;
+        basicCreepsAvg,
+        towers;
 
     // cleanup console & memory
-    if (Game.time % 50 === 0) {
+    if (Game.time % 30 === 0) {
         for (var name in Memory.creeps) {
             if (!Game.creeps[name]) {
                 delete Memory.creeps[name];
@@ -24,19 +27,26 @@ module.exports.loop = function() {
 
     // update game info
     if (Game.time % 50 === 0) {
-        var controllers = _.filter(Game.structures, (structure) => {
-                // console.log(structure.structureType);
-                return structure.structureType === 'controller';
-            }),
+        var controllers = _.filter(Game.structures, (structure) => structure.structureType === 'controller'),
             controllerLevel = controllers[0].level;
         Memory.controllerLevel = controllerLevel;
     }
 
+    // buildRoads
+    if (Game.time & 100 === 0) {
+        buildRoads();
+    }
 
-    harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
-    builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
-    upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
+
+    harvesters = _.filter(Game.creeps, (creep) => creep.memory.role === 'harvester');
+    builders = _.filter(Game.creeps, (creep) => creep.memory.role === 'builder');
+    upgraders = _.filter(Game.creeps, (creep) => creep.memory.role === 'upgrader');
+    towers = _.filter(Game.structures, (structure) => structure.structureType === 'tower');
     // basicFighter = _.filter(Game.creeps, (creep) => creep.memory.role == 'basicFighter');
+
+    if (towers) {
+        towers.forEach((tower) => { towerAttack.call(tower) });
+    }
 
     // console.log('Harvesters: ' + harvesters.length + ', builders: ' + builders.length + ', upgraders: ' + upgraders.length);
 
@@ -75,14 +85,13 @@ module.exports.loop = function() {
 
     if (Game.spawns['Spawn1'].spawning) {
         var spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];
-
         Game.spawns['Spawn1'].room.visual.text(
-            '🛠️ ' + spawningCreep.memory.role,
+            '🛠 ' + spawningCreep.memory.role,
             Game.spawns['Spawn1'].pos.x + 1,
             Game.spawns['Spawn1'].pos.y, { align: 'left', opacity: 0.8 });
     } else {
         // respawn new workers
-        if (harvesters.length <= basicCreepsAvg) {
+        if (harvesters.length <= basicCreepsAvg + 1) {
             spawnBaiscCreep('harvester');
         } else if (upgraders.length <= basicCreepsAvg) {
             spawnBaiscCreep('upgrader');
@@ -112,4 +121,5 @@ module.exports.loop = function() {
         //     roleBasicFighter.run.call(creep);
         // }
     }
+
 }

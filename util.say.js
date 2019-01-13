@@ -14,6 +14,10 @@ function upgrade() {
     this.say('⚡ upgrade');
 }
 
+function tool() {
+    this.say('🛠 tool');
+}
+
 var say = {
     harvest: harvest,
     build: build,
