@@ -1,6 +1,7 @@
 var roleHarvester = require('role.harvester'),
     roleUpgrader = require('role.upgrader'),
     roleBuilder = require('role.builder'),
+    roleFixer = require('role.fixer'),
     roleBasicFighter = require('role.basicFighter'),
     buildRoads = require('build.roads'),
     towerAttack = require('tower.attack');
@@ -10,6 +11,7 @@ module.exports.loop = function() {
     var harvesters,
         builders,
         upgraders,
+        fixers,
         basicFighter,
         basicCreepsAvg,
         towers;
@@ -46,6 +48,7 @@ module.exports.loop = function() {
     harvesters = _.filter(Game.creeps, (creep) => creep.memory.role === 'harvester');
     builders = _.filter(Game.creeps, (creep) => creep.memory.role === 'builder');
     upgraders = _.filter(Game.creeps, (creep) => creep.memory.role === 'upgrader');
+    fixers = _.filter(Game.creeps, (creep) => creep.memory.role === 'fixer');
     towers = _.filter(Game.structures, (structure) => structure.structureType === 'tower');
     // basicFighter = _.filter(Game.creeps, (creep) => creep.memory.role == 'basicFighter');
 
@@ -53,7 +56,7 @@ module.exports.loop = function() {
         towers.forEach((tower) => { towerAttack.call(tower) });
     }
 
-    // console.log('Harvesters: ' + harvesters.length + ', builders: ' + builders.length + ', upgraders: ' + upgraders.length);
+    // console.log('Harvesters: ' + harvesters.length + ', builders: ' + builders.length + ', upgraders: ' + upgraders.length + ', fixers: ' + fixers.length);
 
 
     // total 3 types of basic creeps
@@ -104,6 +107,8 @@ module.exports.loop = function() {
             spawnBaiscCreep('upgrader');
         } else if (builders.length <= basicCreepsAvg) {
             spawnBaiscCreep('builder');
+        } else if (fixers.length <= basicCreepsAvg - 1) {
+            spawnBaiscCreep('fixer');
         }
 
         // if(basicFighter.length == 0 && harvesters.length !== 0) {
@@ -123,6 +128,9 @@ module.exports.loop = function() {
         }
         if (creep.memory.role === 'builder') {
             roleBuilder.run.call(creep);
+        }
+        if (creep.memory.role === 'fixer') {
+            roleFixer.run.call(creep);
         }
         // if (creep.memory.role == 'basicFighter') {
         //     roleBasicFighter.run.call(creep);

@@ -10,6 +10,10 @@ function build() {
     this.say('🚧 build');
 }
 
+function fix() {
+    this.say('🔧 fix');
+}
+
 function helpingBuilders () {
     this.say('🚧 helping builders');
 }
@@ -27,7 +31,8 @@ var say = {
     build: build,
     helpingBuilders: helpingBuilders,
     upgrade: upgrade, 
-    distribute: distribute
+    distribute: distribute,
+    fix: fix
 };
 
 module.exports = say;
