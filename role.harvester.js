@@ -34,13 +34,10 @@ var assignResourceThenHarvest = require('assignResourceThenHarvest'),
             } else {
                 // help building if idle
                 say.helpingBuilders.call(me);
+                var closestSite = _.sortBy(me.room.find(FIND_CONSTRUCTION_SITES), s => me.pos.getRangeTo(s))[0];
 
-                var targets = me.room.find(FIND_CONSTRUCTION_SITES);
-
-                if (targets.length) {
-                    if (me.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                        me.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
-                    }
+                if (me.build(closestSite) == ERR_NOT_IN_RANGE) {
+                    me.moveTo(closestSite, { visualizePathStyle: { stroke: '#ffffff' } });
                 }
             }
         } else {

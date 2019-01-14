@@ -26,17 +26,22 @@ module.exports.loop = function() {
     }
 
     // update game info
-    if (Game.time % 50 === 0) {
+    if (Game.time % 100 === 0) {
         var controllers = _.filter(Game.structures, (structure) => structure.structureType === 'controller'),
             controllerLevel = controllers[0].level;
         Memory.controllerLevel = controllerLevel;
     }
 
-    // buildRoads
-    if (Game.time % 100 === 0) {
+    // reset road sites and buildRoads
+    if (Game.time % 150 === 0) {
+        var roadSites = _.filter(Game.constructionSites, site => site.structureType === 'road');
+        roadSites.forEach((site) => {
+            if(site.progress === 0){
+                site.remove()
+            }
+        });
         buildRoads();
     }
-
 
     harvesters = _.filter(Game.creeps, (creep) => creep.memory.role === 'harvester');
     builders = _.filter(Game.creeps, (creep) => creep.memory.role === 'builder');
@@ -69,7 +74,7 @@ module.exports.loop = function() {
             // } while (i < Game.rooms.sim.controller.level);
             // TODO: need a better way to get controller level in the room
         } while (i < Memory.controllerLevel);
-        console.log('Spawning new creep' + ': ' + newName);
+        // console.log('Spawning new creep' + ': ' + newName);
         // console.log('creep parts: ', parts);
 
         if (Game.spawns['Spawn1'].spawnCreep(parts, newName, { memory: { role: type } }) === ERR_NOT_ENOUGH_RESOURCES) {
